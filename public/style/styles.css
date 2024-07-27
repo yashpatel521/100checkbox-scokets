@@ -1,0 +1,12 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+#checkboxes-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.checkbox {
+    margin: 2px;
+}

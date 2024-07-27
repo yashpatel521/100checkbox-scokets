@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f9;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      .login-container {
+        background-color: #ffffff;
+        padding: 40px;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 400px;
+        text-align: center;
+      }
+      .login-container h2 {
+        margin-bottom: 20px;
+        color: #333;
+      }
+      .login-container input {
+        display: block;
+        width: calc(100% - 20px);
+        margin: 10px auto;
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 16px;
+      }
+      .login-container button {
+        width: calc(100% - 20px);
+        padding: 15px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        margin: 10px auto;
+      }
+      .login-container .google-btn {
+        background-color: #db4437;
+        color: #fff;
+      }
+      .login-container button:hover {
+        opacity: 0.9;
+      }
+      .login-container .footer {
+        margin-top: 20px;
+        font-size: 14px;
+        color: #888;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="login-container">
+      <h2>Login</h2>
+      <form action="/login" method="post">
+        <input type="email" name="email" placeholder="Email" required />
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          required
+        />
+        <button type="submit">Login</button>
+      </form>
+      <form action="/auth/google" method="get">
+        <button type="submit" class="google-btn">Sign in with Google</button>
+      </form>
+      <div class="footer">
+        <p>Don't have an account? Sign in with google</a></p>
+      </div>
+    </div>
+  </body>
+</html>
