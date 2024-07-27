@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f9;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      .container {
+        background-color: #ffffff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        width: 90%;
+        max-width: 500px;
+      }
+      .checkboxes {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin: 20px 0;
+      }
+      .checkbox-item {
+        margin: 5px;
+      }
+      button {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-top: 20px;
+      }
+      button:hover {
+        opacity: 0.9;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Welcome, <%= user.name %>!</h1>
+      <div class="checkboxes" id="checkboxes"></div>
+      <form action="/logout" method="post">
+        <button type="submit">Logout</button>
+      </form>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const socket = io();
+
+      // Initialize checkboxes
+      socket.on("initialState", (checkboxStates) => {
+        const checkboxesDiv = document.getElementById("checkboxes");
+        checkboxesDiv.innerHTML = "";
+
+        checkboxStates.forEach((state, index) => {
+          const checkbox = document.createElement("input");
+          checkbox.type = "checkbox";
+          checkbox.checked = state;
+          checkbox.classList.add("checkbox-item");
+          checkbox.dataset.index = index;
+
+          checkbox.addEventListener("change", () => {
+            const data = {
+              index: index,
+              checked: checkbox.checked,
+            };
+            socket.emit("checkboxChange", data);
+          });
+
+          checkboxesDiv.appendChild(checkbox);
+        });
+      });
+
+      // Update checkboxes on change
+      socket.on("checkboxUpdate", (data) => {
+        const checkboxes = document.querySelectorAll(".checkbox-item");
+        checkboxes[data.index].checked = data.checked;
+      });
+    </script>
+  </body>
+</html>
