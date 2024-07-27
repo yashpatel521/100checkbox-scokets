@@ -11,7 +11,7 @@
         margin: 0;
         padding: 0;
         display: flex;
-        justify-content: center;
+        flex-direction: column;
         align-items: center;
         height: 100vh;
       }
@@ -28,8 +28,16 @@
       .checkbox {
         margin: 0;
       }
+      .logout-button {
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
     </style>
-    <link rel="stylesheet" href="/style/styles.css" />
   </head>
   <body>
     <div id="checkboxes-container">
@@ -37,6 +45,9 @@
       <input type="checkbox" id="checkbox-<%= i %>" class="checkbox" />
       <% } %>
     </div>
+    <a href="/logout">
+      <button class="logout-button">Logout</button>
+    </a>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/script.js"></script>
   </body>

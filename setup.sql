@@ -1,8 +1,22 @@
 
 CREATE TABLE IF NOT EXISTS checkbox_states (
-  id SERIAL PRIMARY KEY,
-  state BOOLEAN[]
+  id INTEGER PRIMARY KEY,
+  state TEXT
 );
+
+CREATE TABLE IF NOT EXISTS users (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT
+);
+
+CREATE TABLE IF NOT EXISTS federated_credentials (
+  user_id INTEGER,
+  provider TEXT,
+  subject TEXT,
+  FOREIGN KEY(user_id) REFERENCES users(id)
+);
+
+
 DO $$
 BEGIN
   IF NOT EXISTS (SELECT 1 FROM checkbox_states WHERE id = 1) THEN

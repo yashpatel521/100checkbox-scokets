@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   const socket = io();
+  const container = document.getElementById("checkboxes-container");
 
   // Listen for initial state from the server
   socket.on("initialState", (checkboxStates) => {
@@ -14,14 +15,14 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Handle checkbox change events
-  const checkboxes = document.querySelectorAll(".checkbox");
-  checkboxes.forEach((checkbox, index) => {
-    checkbox.addEventListener("change", () => {
+  container.addEventListener("change", (event) => {
+    if (event.target.classList.contains("checkbox")) {
+      const index = event.target.id.split("-")[1];
       const data = {
-        index: index,
-        checked: checkbox.checked,
+        index: parseInt(index),
+        checked: event.target.checked,
       };
       socket.emit("checkboxChange", data);
-    });
+    }
   });
 });

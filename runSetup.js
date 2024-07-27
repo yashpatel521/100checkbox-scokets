@@ -1,35 +1,43 @@
 const fs = require("fs");
-const { Pool } = require("pg");
+const sqlite3 = require("sqlite3").verbose();
+const path = require("path");
 
-const dotenv = require("dotenv");
-dotenv.config();
+// Define the path to the SQLite database file
+const dbPath = path.resolve(__dirname, "database.sqlite");
 
-const pool = new Pool({
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
-  database: process.env.DB_NAME,
-  password: process.env.DB_PASSWORD,
-  port: process.env.DB_PORT,
+// Open a connection to the SQLite database
+const db = new sqlite3.Database(dbPath, (err) => {
+  if (err) {
+    console.error("Error opening database:", err);
+    throw err;
+  } else {
+    console.log("Connected to the SQLite database.");
+  }
 });
 
 const executeSqlFile = async (filePath) => {
   try {
     const sql = fs.readFileSync(filePath, "utf8");
 
-    const client = await pool.connect();
-
-    try {
-      await client.query(sql);
-      console.log("SQL file executed successfully");
-    } catch (err) {
-      console.error("Error executing SQL file:", err);
-    } finally {
-      client.release();
-    }
+    db.serialize(() => {
+      db.exec(sql, (err) => {
+        if (err) {
+          console.error("Error executing SQL file:", err);
+        } else {
+          console.log("SQL file executed successfully");
+        }
+      });
+    });
   } catch (err) {
     console.error("Error reading SQL file:", err);
   } finally {
-    await pool.end();
+    db.close((err) => {
+      if (err) {
+        console.error("Error closing the database:", err);
+      } else {
+        console.log("Database connection closed.");
+      }
+    });
   }
 };
 
